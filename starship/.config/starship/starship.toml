@@ -2,7 +2,7 @@
 
 # Keep the prompt anonymous and compact, including over SSH.
 [username]
-disabled = true
+disabled = false
 
 [aws]
 symbol = " "
