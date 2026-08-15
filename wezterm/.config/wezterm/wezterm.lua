@@ -10,7 +10,7 @@ config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font_with_fallback({
   {
     family = "JetBrains Mono",
-    weight = "Medium",
+    weight = "Bold",
   },
   "Symbols Nerd Font Mono",
 })
@@ -19,14 +19,14 @@ config.font_size = 14.0
 config.line_height = 1.08
 
 -- Slight transparency gives it a modern feel without hurting readability.
-config.window_background_opacity = 0.94
-config.macos_window_background_blur = 20
+config.window_background_opacity = 0.80
+config.macos_window_background_blur = 30
 
 config.window_padding = {
-  left = 18,
-  right = 18,
-  top = 14,
-  bottom = 12,
+  left = 12,
+  right = 12,
+  top = 10,
+  bottom = 10,
 }
 
 -- Clean macOS window
