@@ -20,7 +20,7 @@ config.line_height = 1.08
 
 -- Slight transparency gives it a modern feel without hurting readability.
 config.window_background_opacity = 0.80
-config.macos_window_background_blur = 30
+config.macos_window_background_blur = 40
 
 config.window_padding = {
 	left = 12,
@@ -30,7 +30,7 @@ config.window_padding = {
 }
 
 -- Clean macOS window
-config.window_decorations = "RESIZE"
+config.window_decorations = "TITLE | RESIZE"
 
 -- Don't ask for confirmation when closing.
 config.window_close_confirmation = "NeverPrompt"
