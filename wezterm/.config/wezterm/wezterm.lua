@@ -15,12 +15,12 @@ config.font = wezterm.font_with_fallback({
 	"Symbols Nerd Font Mono",
 })
 
-config.font_size = 14.0
+config.font_size = 16.0
 config.line_height = 1.08
 
 -- Slight transparency gives it a modern feel without hurting readability.
 config.window_background_opacity = 0.80
-config.macos_window_background_blur = 40
+config.macos_window_background_blur = 30
 
 config.window_padding = {
 	left = 12,
@@ -40,7 +40,7 @@ config.window_close_confirmation = "NeverPrompt"
 -- ─────────────────────────────────────────────────────────────
 
 config.default_cursor_style = "BlinkingBar"
-config.cursor_blink_rate = 500
+config.cursor_blink_rate = 250
 config.cursor_blink_ease_in = "Constant"
 config.cursor_blink_ease_out = "Constant"
 
@@ -50,7 +50,7 @@ config.cursor_blink_ease_out = "Constant"
 
 config.enable_tab_bar = true
 config.hide_tab_bar_if_only_one_tab = true
-config.use_fancy_tab_bar = false
+config.use_fancy_tab_bar = true
 
 config.tab_bar_at_bottom = false
 config.tab_max_width = 28
