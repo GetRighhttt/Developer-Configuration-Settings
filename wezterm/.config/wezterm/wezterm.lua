@@ -19,12 +19,12 @@ config.font_size = 16.0
 config.line_height = 1.08
 
 -- Slight transparency gives it a modern feel without hurting readability.
-config.window_background_opacity = 0.80
-config.macos_window_background_blur = 30
+config.window_background_opacity = 0.100
+config.macos_window_background_blur = 80
 
 config.window_padding = {
-	left = 12,
-	right = 12,
+	left = 16,
+	right = 16,
 	top = 10,
 	bottom = 10,
 }
