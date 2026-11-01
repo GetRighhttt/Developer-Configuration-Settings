@@ -1,6 +1,6 @@
 # Developer Configuration Settings
 
-My macOS development environment, kept in version control so I can rebuild a familiar terminal and editor setup without relying on memory.
+My development environment, kept in version control so I can rebuild a familiar terminal and editor setup without relying on memory. The original macOS Stow packages remain at the repository root, and Fedora Linux additions live under `linux/fedora/`.
 
 This repository is intentionally personal rather than a universal bootstrap script. It reflects how I work today—primarily Android and Kotlin development—with a fast terminal workflow, a keyboard-focused Neovim setup, and a consistent Catppuccin-inspired interface.
 
@@ -14,7 +14,7 @@ This repository is intentionally personal rather than a universal bootstrap scri
 | `nvim` | `.config/nvim/` | Lua-based Neovim configuration with LSP, completion, formatting, navigation, and Git tooling |
 | `vim` | `.vimrc` | A minimal fallback Vim configuration |
 
-The directory structure follows the [GNU Stow](https://www.gnu.org/software/stow/) package convention. Each top-level package mirrors the path it should have beneath the home directory.
+The macOS directory structure follows the [GNU Stow](https://www.gnu.org/software/stow/) package convention. Each top-level package mirrors the path it should have beneath the home directory. Fedora-specific additions are separate Stow packages under `linux/fedora/`, so they do not replace or change the existing root-level configuration paths.
 
 ## Highlights
 
@@ -28,7 +28,7 @@ The directory structure follows the [GNU Stow](https://www.gnu.org/software/stow
 
 ## Prerequisites
 
-The current configuration is designed for macOS and expects the following tools:
+The root-level configuration is designed for macOS and expects the following tools:
 
 - [Homebrew](https://brew.sh/)
 - [Git](https://git-scm.com/)
@@ -53,6 +53,27 @@ The Zsh configuration also enables these Oh My Zsh plugins:
 - [`zsh-syntax-highlighting`](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 Install them in the Oh My Zsh custom plugins directory before loading this `.zshrc`.
+
+### Fedora Linux
+
+Fedora Linux additions are provided in `linux/fedora/`. The current Fedora package contains Linux-friendly Zsh and WezTerm configurations. The original macOS configurations remain in the root-level `zsh/` and `wezterm/` packages.
+
+Install the command-line tools with DNF:
+
+```sh
+sudo dnf install git stow zsh neovim starship
+```
+
+Install WezTerm using its [official Linux installation instructions](https://wezterm.org/install/linux.html). For the Fedora RPM package, follow the Fedora/Copr instructions there. Install compatible JetBrains Mono and Symbols Nerd Font Mono fonts if you want the configured typography.
+
+From the repository root, preview and then install the Fedora Zsh and WezTerm packages:
+
+```sh
+stow --simulate --verbose --dir=linux/fedora --target="$HOME" zsh wezterm
+stow --verbose --dir=linux/fedora --target="$HOME" zsh wezterm
+```
+
+The Fedora Zsh config tolerates missing optional tools and Oh My Zsh plugins. To use Zsh for the current terminal, run `zsh`; to make it the login shell, run `chsh -s "$(command -v zsh)"` and sign out and back in. The Fedora WezTerm config uses Ctrl-based shortcuts and leaves renderer selection to WezTerm.
 
 ## Installation
 
@@ -88,7 +109,7 @@ On its first launch, Neovim bootstraps `lazy.nvim`. Mason then installs the conf
 
 ## Machine-specific settings
 
-Review `zsh/.zshrc` before using it on another Mac. It currently assumes:
+Review `zsh/.zshrc` before using the macOS configuration on another Mac. It currently assumes:
 
 - Android SDK at `$HOME/Library/Android/sdk`
 - JDK 21 selected through `/usr/libexec/java_home`
@@ -141,7 +162,7 @@ Formatting runs on save for Kotlin and Lua. Use `:FormatDisable` for the current
 
 ## Updating
 
-Pull repository changes and ask Stow to refresh the links:
+Pull repository changes and ask Stow to refresh the links. On macOS, use the root-level packages; on Fedora, use the Linux packages shown above:
 
 ```sh
 cd ~/dotfiles
