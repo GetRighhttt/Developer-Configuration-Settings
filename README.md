@@ -1,6 +1,6 @@
 # Developer Configuration Settings
 
-My development environment, kept in version control so I can rebuild a familiar terminal and editor setup without relying on memory. The original macOS Stow packages remain at the repository root, and Fedora Linux additions live under `linux/fedora/`.
+My development environment, kept in version control so I can rebuild a familiar terminal and editor setup without relying on memory. The root-level Stow packages are the original macOS setup. Fedora Linux has separate, Linux-friendly Zsh and WezTerm packages under `linux/fedora/`; shared Starship, Neovim, and Vim packages remain at the root.
 
 This repository is intentionally personal rather than a universal bootstrap script. It reflects how I work today—primarily Android and Kotlin development—with a fast terminal workflow, a keyboard-focused Neovim setup, and a consistent Catppuccin-inspired interface.
 
@@ -8,13 +8,13 @@ This repository is intentionally personal rather than a universal bootstrap scri
 
 | Package | Configuration | Purpose |
 | --- | --- | --- |
-| `zsh` | `.zshrc` | Oh My Zsh, Android/JDK environment variables, development paths, and Starship initialization |
+| `zsh` | `.zshrc` | macOS Oh My Zsh, Android/JDK environment variables, development paths, and Starship initialization |
 | `starship` | `.config/starship/starship.toml` | Prompt symbols and language/tool indicators |
 | `wezterm` | `.config/wezterm/wezterm.lua` | Terminal appearance, tabs, panes, links, and keyboard shortcuts |
 | `nvim` | `.config/nvim/` | Lua-based Neovim configuration with LSP, completion, formatting, navigation, and Git tooling |
 | `vim` | `.vimrc` | A minimal fallback Vim configuration |
 
-The macOS directory structure follows the [GNU Stow](https://www.gnu.org/software/stow/) package convention. Each top-level package mirrors the path it should have beneath the home directory. Fedora-specific additions are separate Stow packages under `linux/fedora/`, so they do not replace or change the existing root-level configuration paths.
+The directory structure follows the [GNU Stow](https://www.gnu.org/software/stow/) package convention. Each package mirrors the path it should have beneath the home directory. On Fedora, use the Linux Zsh and WezTerm packages together with shared root packages; don't stow the root `zsh` or `wezterm` packages.
 
 ## Highlights
 
@@ -28,7 +28,7 @@ The macOS directory structure follows the [GNU Stow](https://www.gnu.org/softwar
 
 ## Prerequisites
 
-The root-level configuration is designed for macOS and expects the following tools:
+The root-level `zsh` and `wezterm` packages are designed for macOS. Shared packages such as `nvim`, `vim`, and `starship` also work on Fedora. macOS prerequisites include:
 
 - [Homebrew](https://brew.sh/)
 - [Git](https://git-scm.com/)
@@ -56,7 +56,7 @@ Install them in the Oh My Zsh custom plugins directory before loading this `.zsh
 
 ### Fedora Linux
 
-Fedora Linux additions are provided in `linux/fedora/`. The current Fedora package contains Linux-friendly Zsh and WezTerm configurations. The original macOS configurations remain in the root-level `zsh/` and `wezterm/` packages.
+Fedora-specific Zsh and WezTerm configurations are provided in `linux/fedora/`. These use Linux paths and Ctrl-based shortcuts. Use them with the shared root-level `nvim`, `vim`, and `starship` packages.
 
 Install the command-line tools with DNF:
 
@@ -70,14 +70,16 @@ From the repository root, preview and then install the Fedora Zsh and WezTerm pa
 
 ```sh
 stow --simulate --verbose --dir=linux/fedora --target="$HOME" zsh wezterm
+stow --simulate --verbose --target="$HOME" nvim vim starship
 stow --verbose --dir=linux/fedora --target="$HOME" zsh wezterm
+stow --verbose --target="$HOME" nvim vim starship
 ```
 
-The Fedora Zsh config tolerates missing optional tools and Oh My Zsh plugins. To use Zsh for the current terminal, run `zsh`; to make it the login shell, run `chsh -s "$(command -v zsh)"` and sign out and back in. The Fedora WezTerm config uses Ctrl-based shortcuts and leaves renderer selection to WezTerm.
+The Fedora Zsh config tolerates missing optional tools and Oh My Zsh plugins. It checks the standard Linux Android SDK and JDK locations before adding them to the environment. To use Zsh for the current terminal, run `zsh`; to make it the login shell, run `chsh -s "$(command -v zsh)"` and sign out and back in. The Fedora WezTerm config uses Ctrl-based shortcuts and OpenGL rendering.
 
 ## Installation
 
-Clone the repository into the home directory:
+Clone the repository into the home directory. On Fedora, use the commands in [Fedora Linux](#fedora-linux) for Zsh and WezTerm, and install the shared packages as shown below:
 
 ```sh
 git clone https://github.com/GetRighhttt/Developer-Configuration-Settings.git ~/dotfiles
@@ -109,7 +111,7 @@ On its first launch, Neovim bootstraps `lazy.nvim`. Mason then installs the conf
 
 ## Machine-specific settings
 
-Review `zsh/.zshrc` before using the macOS configuration on another Mac. It currently assumes:
+Review `zsh/.zshrc` before using the macOS shell configuration on another Mac. It currently assumes:
 
 - Android SDK at `$HOME/Library/Android/sdk`
 - JDK 21 selected through `/usr/libexec/java_home`
@@ -146,28 +148,35 @@ Formatting runs on save for Kotlin and Lua. Use `:FormatDisable` for the current
 
 ## WezTerm workflow
 
-| Shortcut | Action |
-| --- | --- |
-| `Command T` | Open a tab |
-| `Command W` | Close the active pane |
-| `Command D` | Split the pane horizontally |
-| `Command Shift D` | Split the pane vertically |
-| `Ctrl Shift H/J/K/L` | Move between panes |
-| `Command +` / `Command -` | Increase or decrease font size |
-| `Command 0` | Reset font size |
-| `Command Shift P` | Open the command palette |
-| `Ctrl Shift Space` | Open Quick Select |
-| `Command Shift F` | Search scrollback history |
-| `Command-click` | Open a detected link |
+| Shortcut | macOS | Fedora Linux |
+| --- | --- | --- |
+| Open a tab | `Command T` | `Ctrl T` |
+| Close the active pane | `Command W` | `Ctrl W` |
+| Split horizontally | `Command D` | `Ctrl D` |
+| Split vertically | `Command Shift D` | `Ctrl Shift D` |
+| Move between panes | `Ctrl Shift H/J/K/L` | `Ctrl Shift H/J/K/L` |
+| Change font size | `Command +` / `Command -` | `Ctrl +` / `Ctrl -` |
+| Reset font size | `Command 0` | `Ctrl 0` |
+| Open command palette | `Command Shift P` | `Ctrl Shift P` |
+| Open Quick Select | `Ctrl Shift Space` | `Ctrl Shift Space` |
+| Search scrollback history | `Command Shift F` | `Ctrl Shift F` |
+| Open a detected link | `Command-click` | `Ctrl-click` |
 
 ## Updating
 
-Pull repository changes and ask Stow to refresh the links. On macOS, use the root-level packages; on Fedora, use the Linux packages shown above:
+Pull repository changes and ask Stow to refresh the links. On macOS, use the root-level packages. On Fedora, restow the Linux Zsh and WezTerm packages with shared packages:
 
 ```sh
 cd ~/dotfiles
 git pull --ff-only
 stow --restow zsh vim nvim starship wezterm
+```
+
+On Fedora, run:
+
+```sh
+stow --restow --dir=linux/fedora --target="$HOME" zsh wezterm
+stow --restow --target="$HOME" vim nvim starship
 ```
 
 Inside Neovim, run `:Lazy sync` to update plugins and refresh `lazy-lock.json` when you intentionally want to move to newer plugin versions.
