@@ -55,11 +55,34 @@ return {
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter").setup({})
+      require("nvim-treesitter").install({
+        "bash", "c", "cmake", "cpp", "groovy", "java", "json", "kotlin", "lua",
+        "make", "markdown", "markdown_inline", "query", "vim", "vimdoc", "xml", "yaml",
+      })
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(args)
           pcall(vim.treesitter.start, args.buf)
         end,
       })
     end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = { "BufReadPost", "BufNewFile" },
+    opts = { max_lines = 3, multiline_threshold = 1 },
+  },
+  {
+    "stevearc/aerial.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    cmd = { "AerialToggle", "AerialNavToggle" },
+    keys = {
+      { "<leader>lo", "<cmd>AerialToggle! right<CR>", desc = "Toggle code outline" },
+      { "<leader>lO", "<cmd>AerialNavToggle<CR>", desc = "Browse code outline" },
+    },
+    opts = {
+      backends = { "lsp", "treesitter" },
+      layout = { min_width = 30 },
+      show_guides = true,
+    },
   },
 }

@@ -8,6 +8,7 @@ return {
         flavour = "mocha",
         integrations = {
           blink_cmp = true,
+          aerial = true,
           gitsigns = true,
           mason = true,
           native_lsp = { enabled = true },
@@ -33,6 +34,8 @@ return {
         { "<leader>f", group = "Find" },
         { "<leader>g", group = "Git" },
         { "<leader>l", group = "Language" },
+        { "<leader>lc", group = "Calls" },
+        { "<leader>lt", group = "Type hierarchy" },
       },
     },
   },

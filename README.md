@@ -20,7 +20,8 @@ The macOS directory structure follows the [GNU Stow](https://www.gnu.org/softwar
 
 - A shared Catppuccin Mocha look across WezTerm and Neovim
 - A shell environment prepared for Android SDK tools, JDK 21, Homebrew, and the VS Code command-line launcher
-- Kotlin and Lua language support in Neovim through Mason and the built-in LSP client
+- Kotlin, Java, C, C++, and Lua language support in Neovim through Mason and the built-in LSP client
+- Code navigation for learning how a codebase fits together: call and type hierarchies, a symbol outline, and a sticky header showing the current class and function
 - Completion with `blink.cmp`, formatting with `conform.nvim`, and syntax-aware editing with Treesitter
 - Fast project navigation with Telescope and Oil
 - Git change indicators and hunk actions with Gitsigns
@@ -135,6 +136,15 @@ The leader key is `Space`.
 | `Space l f` | Format the current buffer |
 | `Space l r` | Rename the symbol under the cursor |
 | `Space l a` | Show available code actions |
+| `g d` / `g r` | Go to the definition / list the references of the symbol under the cursor |
+| `g I` / `g y` | Go to the implementation / type definition |
+| `Space l c i` | List the callers of the function under the cursor |
+| `Space l c o` | List the functions the function under the cursor calls |
+| `Space l t s` / `Space l t b` | Show the parent / child types of the class under the cursor |
+| `Space l o` | Toggle the outline of classes and functions in the current file |
+| `Space l s` / `Space l S` | Search symbols in the current file / the whole project |
+| `Space l h` | Switch between a C/C++ source file and its header |
+| `Space l H` | Toggle inline type and parameter hints |
 | `Space w` | Save the current buffer |
 | `Space x` | Close the current buffer |
 | `Ctrl h/j/k/l` | Move between editor windows |
@@ -142,7 +152,13 @@ The leader key is `Space`.
 | `Space g p` | Preview the current Git hunk |
 | `Space g b` | Show a line's Git blame information |
 
-Formatting runs on save for Kotlin and Lua. Use `:FormatDisable` for the current buffer or `:FormatDisable!` globally when a project needs different behavior; `:FormatEnable` restores it.
+Language servers:
+
+- Kotlin uses JetBrains' `kotlin-lsp`, which ships its own Java runtime.
+- Java uses `jdtls`, which needs JDK 25 or newer to run (`brew install --cask corretto@25`). Neovim starts it with that JDK, so the shell's `JAVA_HOME` and Gradle builds keep using JDK 17.
+- C and C++ use Xcode's `clangd` on macOS so the SDK headers resolve. Projects need a `compile_commands.json` or `compile_flags.txt` for accurate results.
+
+Formatting runs on save for Lua only. Kotlin, Java, C, and C++ format only with `Space l f`, so saving a file in a shared project never reformats code you didn't change. Use `:FormatDisable` for the current buffer or `:FormatDisable!` globally when a project needs different behavior; `:FormatEnable` restores it.
 
 ## WezTerm workflow
 
