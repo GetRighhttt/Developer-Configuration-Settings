@@ -1,0 +1,22 @@
+# Independent Ghostty setup for keyboard practice.
+font-size = 14
+background = #14181d
+foreground = #d8dee9
+cursor-color = #9ccfd8
+selection-background = #35404c
+selection-foreground = #ffffff
+background-opacity = 1
+window-padding-x = 10
+window-padding-y = 8
+cursor-style = block
+cursor-style-blink = false
+confirm-close-surface = true
+
+# These shortcuts work on macOS and Fedora without taking Neovim's Ctrl-h/j/k/l.
+keybind = ctrl+shift+enter=new_split:right
+keybind = ctrl+shift+backslash=new_split:down
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+z=toggle_split_zoom

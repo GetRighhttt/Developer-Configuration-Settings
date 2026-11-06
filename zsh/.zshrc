@@ -9,25 +9,11 @@ plugins=(
   web-search
 )
 
-source "$ZSH/oh-my-zsh.sh"
+[[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
-# Development tools
-export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
-export JAVA_HOME="$(/usr/libexec/java_home -v 17)"
-export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include"
-
-# Add each tool directory once. Zsh's path array keeps this readable.
-typeset -U path PATH
-path=(
-  "$JAVA_HOME/bin"
-  "$ANDROID_SDK_ROOT/emulator"
-  "$ANDROID_SDK_ROOT/platform-tools"
-  "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-  "$HOME/.local/bin"
-  $path
-)
+# Portable development paths and JDK selection.
+source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/development.zsh"
 
 # Starship prompt
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-eval "$(starship init zsh)"
-export DETEKT_JAVA_HOME=/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home
+command -v starship >/dev/null && eval "$(starship init zsh)"

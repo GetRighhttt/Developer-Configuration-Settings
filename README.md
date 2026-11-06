@@ -1,5 +1,7 @@
 # Developer Configuration Settings
 
+The Ghostty setup, shared language environment, and separate Neovim practice profile are described in [PRACTICE.md](PRACTICE.md). Ghostty has its own configuration; WezTerm remains available.
+
 My development environment, kept in version control so I can rebuild a familiar terminal and editor setup without relying on memory. The original macOS Stow packages remain at the repository root, and Fedora Linux additions live under `linux/fedora/`.
 
 This repository is intentionally personal rather than a universal bootstrap script. It reflects how I work today—primarily Android and Kotlin development—with a fast terminal workflow, a keyboard-focused Neovim setup, and a consistent Catppuccin-inspired interface.
@@ -8,7 +10,9 @@ This repository is intentionally personal rather than a universal bootstrap scri
 
 | Package | Configuration | Purpose |
 | --- | --- | --- |
-| `zsh` | `.zshrc` | Oh My Zsh, Android/JDK environment variables, development paths, and Starship initialization |
+| `ghostty` | `.config/ghostty/config` | Independent Ghostty appearance and pane shortcuts |
+| `practice` | `.config/nvim-practice/`, `.local/bin/` | Minimal Neovim profile and single-file language runners |
+| `zsh` | `.zshrc`, `.config/zsh/development.zsh` | Oh My Zsh, Android/JDK environment variables, development paths, and Starship initialization |
 | `starship` | `.config/starship/starship.toml` | Prompt symbols and language/tool indicators |
 | `wezterm` | `.config/wezterm/wezterm.lua` | Terminal appearance, tabs, panes, links, and keyboard shortcuts |
 | `nvim` | `.config/nvim/` | Lua-based Neovim configuration with LSP, completion, formatting, navigation, and Git tooling |
@@ -19,7 +23,7 @@ The macOS directory structure follows the [GNU Stow](https://www.gnu.org/softwar
 ## Highlights
 
 - A shared Catppuccin Mocha look across WezTerm and Neovim
-- A shell environment prepared for Android SDK tools, JDK 21, Homebrew, and the VS Code command-line launcher
+- A shell environment prepared for Android SDK tools, JDK 17, Homebrew, and the VS Code command-line launcher
 - Kotlin, Java, C, C++, and Lua language support in Neovim through Mason and the built-in LSP client
 - Code navigation for learning how a codebase fits together: call and type hierarchies, a symbol outline, and a sticky header showing the current class and function
 - Completion with `blink.cmp`, formatting with `conform.nvim`, and syntax-aware editing with Treesitter
@@ -39,7 +43,7 @@ The root-level configuration is designed for macOS and expects the following too
 - [WezTerm](https://wezterm.org/)
 - [Neovim](https://neovim.io/)
 - JetBrains Mono and Symbols Nerd Font Mono, or compatible fonts
-- JDK 21 and the Android SDK when using the Android-specific shell settings
+- JDK 17 and the Android SDK when using the Android-specific shell settings
 
 The core command-line tools can be installed with Homebrew:
 
@@ -88,13 +92,13 @@ cd ~/dotfiles
 Before creating links, back up any existing configuration files that you want to keep. Then preview the changes Stow would make:
 
 ```sh
-stow --simulate --verbose zsh vim nvim starship wezterm
+stow --simulate --verbose zsh vim nvim starship wezterm ghostty practice
 ```
 
 If the preview looks correct, create the links:
 
 ```sh
-stow --verbose zsh vim nvim starship wezterm
+stow --verbose zsh vim nvim starship wezterm ghostty practice
 ```
 
 Restart the shell or reload its configuration:
@@ -110,15 +114,9 @@ On its first launch, Neovim bootstraps `lazy.nvim`. Mason then installs the conf
 
 ## Machine-specific settings
 
-Review `zsh/.zshrc` before using the macOS configuration on another Mac. It currently assumes:
+The shared language environment is in `zsh/.config/zsh/development.zsh`. It discovers Homebrew and the Android SDK on macOS, selects JDK 17 for production tools, and uses the installed Python 3.14. `DETEKT_JAVA_HOME` defaults to the selected JDK 17 unless a valid separate path is already configured. Linux uses its own JDK selection. See [PRACTICE.md](PRACTICE.md) for the Ghostty and practice workflow.
 
-- Android SDK at `$HOME/Library/Android/sdk`
-- JDK 21 selected through `/usr/libexec/java_home`
-- Homebrew OpenJDK 17 headers under `/opt/homebrew`
-- Visual Studio Code installed in `/Applications`
-- Starship configuration at `$HOME/.config/starship/starship.toml`
-
-These values are preferences and machine assumptions, not required conventions. Adjust them to match the local toolchain.
+`.zprofile` remains local to the Mac and is not part of this repository. Install the shell plugins before using the full root-level Zsh setup on another machine. The separate `linux/fedora/` packages remain available.
 
 ## Neovim workflow
 
@@ -183,7 +181,7 @@ Pull repository changes and ask Stow to refresh the links. On macOS, use the roo
 ```sh
 cd ~/dotfiles
 git pull --ff-only
-stow --restow zsh vim nvim starship wezterm
+stow --restow zsh vim nvim starship wezterm ghostty practice
 ```
 
 Inside Neovim, run `:Lazy sync` to update plugins and refresh `lazy-lock.json` when you intentionally want to move to newer plugin versions.
@@ -192,7 +190,7 @@ To remove the managed links without deleting this repository:
 
 ```sh
 cd ~/dotfiles
-stow --delete zsh vim nvim starship wezterm
+stow --delete zsh vim nvim starship wezterm ghostty practice
 ```
 
 ## Repository hygiene

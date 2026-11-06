@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+export NVIM_APPNAME=nvim-practice
+exec nvim "$@"

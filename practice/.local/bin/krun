@@ -1,0 +1,18 @@
+#!/bin/sh
+set -eu
+if [ "$#" -lt 1 ]; then
+  echo "Usage: krun solution.kt [program arguments...]" >&2
+  exit 2
+fi
+source_file=$1
+shift
+case "$source_file" in /*) ;; *) source_file="$PWD/$source_file" ;; esac
+[ -f "$source_file" ] || { echo "File not found: $source_file" >&2; exit 2; }
+command -v kotlinc >/dev/null 2>&1 || { echo "kotlinc is missing. Install the Kotlin command-line compiler." >&2; exit 127; }
+command -v java >/dev/null 2>&1 || { echo "java is missing. Install a JDK." >&2; exit 127; }
+build_dir=$(mktemp -d "${TMPDIR:-/tmp}/kpractice.XXXXXXXX")
+trap 'rm -rf "$build_dir"' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+kotlinc "$source_file" -include-runtime -d "$build_dir/solution.jar"
+java -jar "$build_dir/solution.jar" "$@"
