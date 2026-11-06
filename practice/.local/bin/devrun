@@ -1,0 +1,26 @@
+#!/bin/sh
+set -eu
+if [ "$#" -lt 1 ]; then
+  echo "Usage: devrun source.{c,cpp,java,kt,py} [program arguments...]" >&2
+  exit 2
+fi
+source_file=$1
+shift
+case "$source_file" in /*) ;; *) source_file="$PWD/$source_file" ;; esac
+[ -f "$source_file" ] || { echo "File not found: $source_file" >&2; exit 2; }
+case "$source_file" in
+  *.kt) exec "$HOME/.local/bin/krun" "$source_file" "$@" ;;
+  *.py) exec python3 "$source_file" "$@" ;;
+  *.java) exec java "$source_file" "$@" ;;
+  *.c|*.cpp|*.cc|*.cxx) ;;
+  *) echo "Supported source files: .c .cpp .cc .cxx .java .kt .py" >&2; exit 2 ;;
+esac
+build_dir=$(mktemp -d "${TMPDIR:-/tmp}/devrun.XXXXXXXX")
+trap 'rm -rf "$build_dir"' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+case "$source_file" in
+  *.c) "${CC:-cc}" -std=c17 -Wall -Wextra -g "$source_file" -o "$build_dir/solution" ;;
+  *) "${CXX:-c++}" -std=c++20 -Wall -Wextra -g "$source_file" -o "$build_dir/solution" ;;
+esac
+"$build_dir/solution" "$@"

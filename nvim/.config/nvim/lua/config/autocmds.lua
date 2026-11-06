@@ -19,3 +19,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = group,
+  pattern = { "java", "kotlin" },
+  desc = "Use 4-space indentation for JVM languages",
+  callback = function()
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+    vim.opt_local.softtabstop = 4
+  end,
+})
