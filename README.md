@@ -82,6 +82,11 @@ stow --verbose --target="$HOME" nvim vim starship ghostty practice
 
 The Fedora Zsh config tolerates missing optional tools and Oh My Zsh plugins. It checks the standard Linux Android SDK and JDK locations before adding them to the environment. To use Zsh for the current terminal, run `zsh`; to make it the login shell, run `chsh -s "$(command -v zsh)"` and sign out and back in. The Fedora WezTerm config uses Ctrl-based shortcuts and OpenGL rendering.
 
+An optional [Plasma desktop profile](linux/fedora/desktop/README.md) combines a
+Mac-inspired WhiteSur appearance, a floating dock, and Super-key Overview. It
+includes private undo snapshots and is applied with its own script rather than
+Stow.
+
 ## Installation
 
 Clone the repository into the home directory. On Fedora, use the commands in [Fedora Linux](#fedora-linux) for Zsh and WezTerm, and install the shared packages as shown there.
